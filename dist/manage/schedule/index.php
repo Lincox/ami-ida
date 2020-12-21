@@ -327,6 +327,57 @@ include(APP_PATH.'libs/head.php');
             <?php foreach($schedule_fields as $key=> $value){?>
             <input type="hidden" id="schedule_delete" name="schedule_delete" value="" class="js-val-row-delete">
             <div class="js-rp rp">
+              <!-- Sorted schedules -->
+              <?php
+              $lessons = get_field('schedule', $studio_id);
+              $original_indexes = range(0, count($lessons) - 1, 1);
+
+              $keys = array();
+              foreach($lessons as $index => $value)
+                $keys[$index] = strtotime($value['date'].' '.$value['time_start']);
+              array_multisort($keys, SORT_DESC, $lessons, $original_indexes);
+              ?>
+
+              <?php foreach ($lessons as $index => $value) { ?>
+              <div class="row js-row" data-row="<?php $index ?>">
+                <div class="inside">
+                  <select name="<?php echo 'schedule_'.$original_indexes[$index].'_lesson_master'?>" id="<?php echo 'schedule_'.$original_indexes[$index].'_lesson_master'?>" class="restrict" disabled>
+                    <?php if($value['custom_lesson_title']){ ?>
+                    <option value="">
+                      <?php echo $value['custom_lesson_title'];?>
+                    </option>
+                    <?php }?>
+                    <?php foreach($lesson_master_arr as $lesson_master_key => $lesson_master_val){
+                          $selected = (get_sub_field($index, $studio_id)->ID) == $lesson_master_val['id'] ? ' selected' : '';
+                          ?>
+                    <option value="<?php echo $lesson_master_val['id'];?>" <?php echo $selected;?> data-id="
+                      <?php echo $lesson_master_val['id'];?>" data-ttl="
+                      <?php echo $lesson_master_val['ttl'];?>" data-content="
+                      <?php echo $lesson_master_val['content'];?>" data-level="
+                      <?php echo $lesson_master_val['level'];?>">
+                      <?php echo $lesson_master_val['ttl'];?>
+                    </option>
+                    <?php }?>
+                  </select>
+                  <input type="text" id="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'date';?>"
+                    name="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'date';?>" class="js-datepicker datepicker restrict"
+                    value="<?php echo $value['date'];?>" disabled>
+                  <input type="text" name="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'time_start';?>"
+                    id="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'time_start';?>" value="<?php echo $value['time_start'];?>"
+                    disabled>
+                  <input type="text" name="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'time_end';?>"
+                    id="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'time_end';?>" value="<?php echo $value['time_end'];?>"
+                    disabled>
+                  <input type="text" name="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'instructor';?>"
+                    id="<?php echo 'schedule'.'_'.$original_indexes[$index].'_'.'instructor';?>" value="<?php echo $value['instructor'];?>"
+                    disabled>
+                  <div class="btn-edit js-edit-row">修正する</div>
+                  <div class="btn-delete delete-rp js-delete-row">削除する</div>
+                </div>
+              </div>
+              <?php } ?>
+              <input type="hidden" id="schedule" name="schedule" value="<?php echo $index;?>" class="js-number-rp">
+<!--
               <?php $i = 0;
                 if (have_rows($key, $studio_id)) {
                   while (have_rows($key, $studio_id)) {
@@ -389,6 +440,7 @@ include(APP_PATH.'libs/head.php');
             <input type="hidden" id="<?php echo $key;?>" name="<?php echo $key;?>" value="<?php echo $i;?>"
               class="js-number-rp">
             <?php }?>
+-->
           </div>
         </form>
       </div>
@@ -642,8 +694,9 @@ include(APP_PATH.'libs/head.php');
     function popup_btn_edit_add_handlers() {
 
       $("body").on("click", ".js-edit-row-popup", function () {
-        start_time_backup = $("#_popup_course_time_start").val();
-
+        if (!$(this).is(".editing")) {
+          start_time_backup = $("#_popup_course_time_start").val();
+        }
         fields = $(this)
           .closest(".js-row")
           .find("input, textarea, select")
@@ -661,7 +714,6 @@ include(APP_PATH.'libs/head.php');
       });
 
       $(".js-form-schedule-popup").on("submit", function () {
-
         let course_type = $("#_popup_course_type").val();
         let course_date = $("#_popup_course_date").val();
         let course_start_time = $("#_popup_course_time_start").val();
@@ -699,12 +751,14 @@ include(APP_PATH.'libs/head.php');
             $(`#schedule_${selected_course_index}_instructor`).val(course_instructor);
 
             $(".btn_close").trigger("click");
-            popup();
-            ajaxSchedule();
+            getAjax(_post_id, _date);
           })
           .error(function (xhr, status, error) {
             console.log(xhr + status + error);
           });
+        window.location.reload(true);
+        location.reload(true);
+        oobject.reload(force_reload);
         return false;
       });
     }
@@ -738,38 +792,14 @@ include(APP_PATH.'libs/head.php');
         })
           .success((data) => {
             $(`.js-row[data-row=${selected_course_index}]`).remove();
-
             $(".btn_close").trigger("click");
-            popup();
-            ajaxSchedule();
+            getAjax(_post_id, _date);
           })
           .error((xhr, status, error) => { console.log(status, error); return false });
+        window.location.reload(true);
+        location.reload(true);
+        oobject.reload(force_reload);
         return true;
-      });
-    }
-
-    function popup_form_add_handlers() {
-      $(".js-form-popup").on("submit", () => {
-        data = {};
-        if ($(this).is(".creating")) {
-          inputs = $(this).find("input, textarea, select");
-          inputs.each(function (key, value) {
-            var name = $(this).attr("name"),
-              val = $(this).val();
-            data[name] = val;
-          });
-        } else {
-          inputs = $(".inside").find("input, textarea, select");
-          inputs.each(function (key, value) {
-            var name = $(this).attr("name"),
-              val = $(this).val();
-            if (name == "schedule") {
-              data["schedule"] = parseInt(val) - 1;
-            } else {
-              data[name] = val;
-            }
-          });
-        }
       });
     }
 
@@ -777,10 +807,8 @@ include(APP_PATH.'libs/head.php');
       popup();
       ajaxSchedule();
       autoCompleteForm();
-      popup_form_add_handlers();
       popup_btn_edit_add_handlers();
       popup_btn_delete_add_handlers();
-      popup_form_add_handlers();
     });
   </script>
 
