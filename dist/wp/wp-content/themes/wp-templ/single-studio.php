@@ -30,6 +30,7 @@ include(APP_PATH.'libs/head.php');
 </head>
 <body id="single-studio" class="single-studio">
 <?php include(APP_PATH.'libs/header.php'); ?>
+<?php include(APP_PATH.'libs/loading.php'); ?>
 <div id="wrap">
   <?php if (have_posts()) :
     while (have_posts()) : the_post();
@@ -297,8 +298,8 @@ include(APP_PATH.'libs/head.php');
     </div>
     <div class="sec-voice">
       <div class="slider js-voice-slider">
-        <?php for($i=0;$i<10;$i++){ ?>
-          <div class="item inview fadeInBottom" style="background-image: url(<?php echo APP_ASSETS; ?>img/studio/slide<?php echo $i+1; ?>.jpg);"></div>
+        <?php for($i=1;$i<9;$i++){ ?>
+          <div class="item inview fadeInBottom" style="background-image: url(<?php echo APP_ASSETS; ?>img/top/<?php echo $i+1; ?>.jpg);"></div>
         <?php } ?>
       </div>
       <h3 class="the-title">アミーダの<br class="sp">溶岩ホットヨガを<br>選ぶお客様のお声</h3>

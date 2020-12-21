@@ -10,42 +10,44 @@ if(!empty($_POST['actionFlag']) && $_POST['actionFlag'] == "send") {
   $subject_admin = "ホームページからお問い合わせがありました";
   $subject_user = "お問い合わせありがとうございました";
   $email_head_ctm_admin = "ホームページからお問い合わせがありました。";
-  $email_head_ctm_user = "この度はお問い合わせいただきまして誠にありがとうございます。
+  $email_head_ctm_user = "この度は体験レッスンにご予約いただき誠にありがとうございます。
 こちらは自動返信メールとなっております。
-弊社にて確認した後、改めてご連絡させていただきます。
-
-以下、お問い合わせ内容となっております。
-ご確認くださいませ。";
+【※こちらのメールは予約確定連絡ではございません】
+この度は溶岩ホットヨガ体験をご予約頂きまして、誠にありがとうございます。
+以下の内容を承りました。
+予約確定メールは折ってご連絡させていただきます。
+今しばらくお待ちくださいませ。";
   $email_body_footer = "
-    About company
+   〒135-0063
+   東京都江東区有明2-1-8 有明ガーデン5階
+   電話番号：03-6380-7977
+   電話受付時間
+   全日10：00～22：00（当面の間～21:00）
+   定休日なし
   ";
 
   $entry_time = gmdate("Y/m/d H:i:s",time()+9*3600);
   $entry_host = gethostbyaddr(getenv("REMOTE_ADDR"));
   $entry_ua = getenv("HTTP_USER_AGENT");
 
-$msgBody = "■体験内容
+$msgBody = "■体験レッスンのご予約内容
 $reg_single_ttl
-
-■体験希望日
+【体験希望日時】
 $reg_hopedate $reg_hopetime
-
-■お名前
+【お名前】
 $reg_name
-
-■お名前（ふりがな）
+【お名前（ふりがな）】
 $reg_nameuser_furigana
 ";
 if(isset($reg_age) && $reg_age != '') $msgBody .= "
-■年齢
+【年齢】
 $reg_age
 ";
 
 $msgBody .= "
-■電話番号
+【電話番号】
 $reg_tel
-
-■メールアドレス
+【メールアドレス】
 $reg_email
 $reg_content";
 
@@ -54,26 +56,16 @@ $reg_content";
 登録日時：$entry_time
 ホスト名：$entry_host
 ブラウザ：$entry_ua
-
-
 $email_head_ctm_admin
-
-
 $msgBody
-
-
 ";
 
 //お客様用メッセージ
   $body_user = "
 $reg_name 様
-
 $email_head_ctm_user
-
 ---------------------------------------------------------------
-
 $msgBody
-
 ---------------------------------------------------------------
 ".$email_body_footer."
 ---------------------------------------------------------------";

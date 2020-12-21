@@ -21,7 +21,8 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
   $wp_studio = new WP_Query();
   $param_studio = array(
     'post_type'=>'studio',
-    'order' => 'DESC',
+    'orderby'         => 'menu_order',
+    'order'           => 'ASC',
     'posts_per_page' => '-1',
   );
   $wp_studio->query($param_studio);
@@ -246,7 +247,7 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
                   <div class="th">事前確認電話(1~2日前)</div>
                   <div class="th">- 担当</div>
                   <div class="th">ステータス</div>
-                  <div class="th">キャンセル対応</div>
+                  <div class="th">追客対応</div>
                   <div class="th">備考・メモ</div>
                 </div>
                 <?php while ( $appl_query_all->have_posts() ) :
