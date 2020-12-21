@@ -93,26 +93,41 @@
       }
     }
   }
+  //$lesson array is multidimensional array with top key is date, and inside is every lesson
 
   ksort($lesson);
   foreach($lesson as $key => $val){
+    //usort sort $lesson_time_start in array from smallest to biggest
     usort($val, function($a, $b) {
       return intval(str_replace(':', '', $a[0])) - intval(str_replace(':', '', $b[0]));
     });
     $lesson[$key] = $val;
   }
 
+  //$lesson array is sorted from smallest date to biggest date, and inside: smallest time start to biggest time start
   $keyIndex = array_search($date_start,array_keys($lesson));
   $lesson = array_slice($lesson, $keyIndex, $keyIndex + 7);
+
   foreach($lesson as $key => $value){
     $j = 0;
+    $max_j = count($value);
     $html .= '<div class="col">';
     for($i=$min_hour;$i<=$max_hour;$i++){
       $lhour = explode(':', $value[$j][0]);
       $lhour = $lhour[0];
       if($lhour != $i){
+        if($lhour < $i) {
+          //check if time start is duplicate, if it's duplicate, go to next lesson
+          while($lhour < $i && $j < $max_j) {
+            $j++;
+            $lhour = explode(':', $value[$j][0]);
+            $lhour = $lhour[0];
+          }
+        }
         $html .= '<div class="lesson empty"></div>';
-      }else{
+      }
+
+      if($lhour == $i){
         $date = new DateTime('now', new DateTimeZone('Asia/Tokyo'));
         $timestamp_now = strtotime($date->format('Y/m/d H:i:s'));
 
