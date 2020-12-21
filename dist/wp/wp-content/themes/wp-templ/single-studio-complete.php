@@ -1,75 +1,87 @@
 <?php
 session_start();
+$studio_id = get_the_ID();
+$studio_name = get_the_title();
+$studio_zipcode = get_field('access_zipcode',$studio_id);
+$studio_address = get_field('access_address01',$studio_id);
+$studio_tel = get_field('access_tel',$studio_id);
 $thisPageName = 'single-studio';
-
+// var_dump($stuido_id);
+// var_dump($studio_name);
+// var_dump($studio_zipcode);
+// var_dump($studio_address);
+// var_dump($studio_tel);
 if(!empty($_POST['actionFlag']) && $_POST['actionFlag'] == "send") {
   $aMailto = $aMailtoContact;
   if(count($aBccToContact)) $aBccTo = $aBccToContact;
   $from = $fromContact;
   $fromname = $fromName;
-  $subject_admin = "ホームページからお問い合わせがありました";
+  $subject_admin = "ホームページから体験レッスンのお問い合わせがありました";
   $subject_user = "お問い合わせありがとうございました";
-  $email_head_ctm_admin = "ホームページからお問い合わせがありました。";
-  $email_head_ctm_user = "この度はお問い合わせいただきまして誠にありがとうございます。
+  $email_head_ctm_admin = "ホームページから体験レッスンのお問い合わせがありました。";
+  $email_head_ctm_user = "この度は体験レッスンにご予約いただき誠にありがとうございます。
 こちらは自動返信メールとなっております。
-弊社にて確認した後、改めてご連絡させていただきます。
-
-以下、お問い合わせ内容となっております。
-ご確認くださいませ。";
-  $email_body_footer = "
-    About company
+【※こちらのメールは予約確定連絡ではございません】
+この度は溶岩ホットヨガ体験をご予約頂きまして、誠にありがとうございます。
+以下の内容を承りました。
+予約確定メールは折ってご連絡させていただきます。
+今しばらくお待ちくださいませ。";
+  $email_body_footer = $studio_zipcode."
+  ".$studio_address.
+  "
+  電話番号:".$studio_tel."
+  電話受付時間
+  全日10:00～22:00（当面の間～21:00）
+  定休日なし
   ";
 
   $entry_time = gmdate("Y/m/d H:i:s",time()+9*3600);
   $entry_host = gethostbyaddr(getenv("REMOTE_ADDR"));
   $entry_ua = getenv("HTTP_USER_AGENT");
 
-$msgBody = "■体験内容
+$msgBody = "■【店舗名】
+$studio_name
+
+■体験レッスンのご予約内容
 $reg_single_ttl
 
-■体験希望日
+■【体験希望日時】
 $reg_hopedate $reg_hopetime
 
-■お名前
+■【お名前】
 $reg_name
 
-■お名前（ふりがな）
+■【お名前（ふりがな）】
 $reg_nameuser_furigana
 ";
+
 if(isset($reg_age) && $reg_age != '') $msgBody .= "
-■年齢
+■【年齢】
 $reg_age
 ";
 
 $msgBody .= "
-■電話番号
+【電話番号】
 $reg_tel
 
-■メールアドレス
+■【メールアドレス】
 $reg_email
+
 $reg_content";
 
 //お問い合わせメッセージ送信
   $body_admin = "
-登録日時：$entry_time
-ホスト名：$entry_host
-ブラウザ：$entry_ua
-
-
+登録日時:$entry_time
+ホスト名:$entry_host
+ブラウザ:$entry_ua
 $email_head_ctm_admin
-
-
 $msgBody
-
-
 ";
 
 //お客様用メッセージ
   $body_user = "
 $reg_name 様
-
 $email_head_ctm_user
-
 ---------------------------------------------------------------
 
 $msgBody

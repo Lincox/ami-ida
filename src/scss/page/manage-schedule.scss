@@ -599,8 +599,8 @@
       }
     }
   }
-  .rp{
-    .row{
+  >.rp{
+    >.row{
       background-color: #fff;
       border-radius: 18px;
       padding: 25px 30px;
@@ -608,9 +608,9 @@
       @include SP{
         padding: 25px 15px;
       }
-      .inside{
+      >.inside{
         font-size: 0;
-        select, input{
+        >select, >input{
           @include add_prefix(appearance, none);
           border: 1px solid #E2E2E2;
           border-radius: 8px;
