@@ -815,8 +815,10 @@ POPUP
         }
       }
       .img{
-        width: 55.67%;
-        min-height: 296px;
+        // width: 55.67%;
+        width: 48%;
+        @include aspect-ratio(600,400);
+        // min-height: 296px;
         background-size: cover;
         background-position: center;
         @include screen(768px,950px){width: 50%;min-height: 224px;}
@@ -827,7 +829,8 @@ POPUP
       }  
       .info{
         text-align: left;
-        width: 44.33%;
+        // width: 44.33%;
+        width: 52%;
         padding: 30px 20px;
         display: flex;justify-content: center;
         align-items: center;

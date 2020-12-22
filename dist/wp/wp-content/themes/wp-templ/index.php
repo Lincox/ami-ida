@@ -153,6 +153,15 @@ include(APP_PATH.'libs/head.php');
 						</div>
 					</div>
 				</div>
+				<div class="feature1__lst--item inview fadeInBottom">
+					<div class="img lazy" data-bg="url(<?php echo APP_ASSETS; ?>img/top/feature5.jpg)"></div>
+					<div class="info">
+						<div class="inner">
+							<p class="ttl">キレイで清潔感のあるスタジオ</p>
+							<p class="txt">毎レッスン後に換気と掃除を行うため、スタジオ内はとって もキレイです。</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
