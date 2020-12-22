@@ -7,7 +7,8 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
   $wp_studio = new WP_Query();
   $param = array(
     'post_type'=>'studio',
-    'order' => 'DESC',
+    'orderby'         => 'menu_order',
+    'order'           => 'ASC',
     'posts_per_page' => '-1',
   );
   $wp_studio->query($param);

@@ -362,7 +362,7 @@ function triggerLogin(){
   $cur_url = $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['HTTP_HOST'].explode('?', $_SERVER['REQUEST_URI'], 2)[0];
   // if(strpos($cur_url, '/manage/') && (strpos($cur_url, '/schedule-format/') || strpos($cur_url, '/news/'))){
   if(strpos($cur_url, '/manage/')) {
-    $username = "amiida";
+    $username = get_field('studio_account_email',55);
     $user = get_user_by('login', $username );
 
     if ( !is_user_logged_in() ) {

@@ -15,7 +15,8 @@ $flagValidPage = 0;
 $wp_studio = new WP_Query();
 $param_studio = array(
   'post_type'=>'studio',
-  'order' => 'DESC',
+  'orderby'         => 'menu_order',
+  'order'           => 'ASC',
   'posts_per_page' => '-1',
 );
 $wp_studio->query($param_studio);

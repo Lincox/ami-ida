@@ -53,13 +53,13 @@ include(APP_PATH.'libs/head.php');
         <div class="etr__row">
           <p class="etr__row--th">TEL</p>
           <div class="etr__row--td">
-            <a href="tel:03-6712-8844">03-6712-8844</a>
+            <a href="tel:03-6712-8844">03-5783-7241</a>
           </div>
         </div>
         <div class="etr__row">
           <p class="etr__row--th">E-MAIL</p>
           <div class="etr__row--td">
-            <a href="mailto:info＠ami-ida.com">mailto:info＠ami-ida.com</a>
+            <a href="mailto:support@ami-ida.com">support@ami-ida.com</a>
           </div>
         </div>
         <div class="etr__row">
