@@ -73,7 +73,7 @@ function deleteEmptyRow(){
 function getAjax(_post_id, _date_start){
   $.ajax({
     method: 'GET',
-    url: location.origin+'/stage/libs/ajax-studio-schedule.php',
+    url: location.origin+'/libs/ajax-studio-schedule.php',
     dataType: 'json',
     data: {
       post_id: _post_id,
@@ -215,7 +215,7 @@ $('.c-news .c-news__lst--item').click( function(){
   var _id = $(this).attr('data-id');
   $.ajax({
     method: 'POST',
-    url: _url+"/libs/ajax-news.php",  
+    url: _url+"/libs/ajax-news.php",
     dataType: 'json',
     data: {
       id: _id,

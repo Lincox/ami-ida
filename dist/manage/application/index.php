@@ -47,9 +47,13 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
   }
   $cur_date = date('Y/m/d');
   if($flagValidPage) {
-    if(isset($_POST) && !empty($_POST['field_key'])){
-      update_field($_POST['field_key'], $_POST['field_value'], $_POST['post_id']);
-      return;
+    if(isset($_POST)){
+      if($_POST['studio_email']){
+        update_field('studio_email', $_POST['studio_email'], $studio_id);
+      }else if(!empty($_POST['field_key'])){
+        update_field($_POST['field_key'], $_POST['field_value'], $_POST['post_id']);
+        return;
+      }
     }
     include(APP_PATH.'libs/head.php');
 ?>
@@ -91,6 +95,10 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
               </div>
             </div>
           </div>
+          <form class="sec-email" method="POST">
+            <input type="email" id="studio_email" name="studio_email" placeholder="xxxx@email.com" value="<?php echo get_field('studio_email', $studio_id) ?:'';?>">
+            <button type="submit">メールを更新する</button>
+          </form>
           <?php
             $meta_query_studio = '';
             if($studio_id) {

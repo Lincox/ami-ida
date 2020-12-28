@@ -86,6 +86,49 @@
   }
 }
 
+.sec-email{
+  font-size: 0;
+  margin-bottom: 30px;
+  input {
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid #E2E2E2;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 15px;
+    font-size: 1.5rem;
+    line-height: 26px;
+    font-weight: 500;
+    font-family: "游ゴシック体", "Yu Gothic", YuGothic, "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "MS Pゴシック", "MS PGothic", sans-serif;
+    max-width: 400px;
+    width: calc(100% - 180px);
+    margin-right: 20px;
+    @include SP{
+      width: 100%;
+      display: block;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+  button {
+    background: #920783;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    vertical-align: top;
+    padding: 12px 20px 13px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s ease;
+    border: 0;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
 .sec-num-application{
   padding-bottom: 17px;
   margin-bottom: 31px;
