@@ -48,8 +48,9 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
   $cur_date = date('Y/m/d');
   if($flagValidPage) {
     if(isset($_POST)){
-      if($_POST['studio_email']){
+      if(isset($_POST['studio_email'])){
         update_field('studio_email', $_POST['studio_email'], $studio_id);
+        header("Location: ".$cur_url, TRUE, 301);
       }else if(!empty($_POST['field_key'])){
         update_field($_POST['field_key'], $_POST['field_value'], $_POST['post_id']);
         return;
