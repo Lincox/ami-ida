@@ -9,177 +9,224 @@ INTRO
     padding-top: 10px;
   }
 }
+.header,.footer{
+opacity: 0;
+}
 /*-----------------------------------------------------------
 LST
 ------------------------------------------------------------*/
-.amiidalife{
-  padding: 36px 20px;
-  max-width: 988px;
-  @include max-screen(767px){max-width: 600px;padding: 0 25px 30px;}
-  &-lst{
-    margin-top: 75px;
-    @include max-screen(767px){margin-top: 30px;}
-    .item{
-      display: flex;justify-content: space-between;
-      width: 100%;position: relative;flex-wrap: wrap;
-      margin-bottom: 80px;
-      @include screen(768px,950px){margin-bottom: 60px;}
-      @include max-screen(767px){margin-bottom: 20px;}
-      .img{
-        background-position: center;
-        background-size:cover;
-        background-repeat: no-repeat;
-      }
-      &--ttl{
-        @include aspect-ratio(260,40);
-        text-align: center;
-        @include max-screen(767px){
-          &:before{content: none;}
-        }
-        .ttl1{
-          @include font(14,22/14,0.02,600);
-          @include noto;color: #000;
-          position: relative;display: inline-block;
-          @include max-screen(767px){
-            font-size: 13px;
-            text-align: center;
-          }
-          em{
-            font-style: normal;
-            font-size: 25px;vertical-align: middle;
-            @include max-screen(767px){font-size: 22px;}
-          }
-        }
-      }
-      &__img{
-        width: calc(73.28% - 140px);
-        @include max-screen(767px){
-          width: 100%;
-        }
-        .img{
-          @include aspect-ratio(550,380);
-          @include max-screen(767px){
-            margin-top: 20px;
-            width: 75%;max-width: 400px;
-          }
-        }
-      }
-      &__info{
-        width: 290px;
-        @include max-screen(767px){
-          width: 100%;margin-top: -25%;
-        }
-        &--space{
-          @include aspect-ratio(260,70);
-          @include screen(768px,950px){@include aspect-ratio(260,40);}
-          @include max-screen(767px){display: none;}
-        }
-        &--img{
-          .img{
-            @include aspect-ratio(250,185);
-            width: 100%;
-            @include max-screen(767px){
-              max-width: 280px;
-              width: 55%;
-            }
-          }
-        }
-      }
-      &:last-child .line{display: none;}
-      &:not(:last-child) .line{
-        position: absolute;
-        top:0;height: calc(100% + 100px);
-        display: flex;flex-direction: column;
-        width: calc(69% - 130px);
-        overflow: hidden;
-        @include screen(768px,950px){height: calc(100% + 80px);}
-        @include max-screen(767px){display: none;}
-        .space{
-          @include aspect-ratio(550,105);
-        }
-        .inner{
-          position: relative;
-          width: 100%;height: 100%;
-          background: url(../../img/common/line1.png) center/100% 100% no-repeat;
+// .amiidalife{
+//   padding: 36px 20px;
+//   max-width: 988px;
+//   @include max-screen(767px){max-width: 600px;padding: 0 25px 30px;}
+//   &-lst{
+//     margin-top: 75px;
+//     @include max-screen(767px){margin-top: 30px;}
+//     .item{
+//       display: flex;justify-content: space-between;
+//       width: 100%;position: relative;flex-wrap: wrap;
+//       margin-bottom: 80px;
+//       @include screen(768px,950px){margin-bottom: 60px;}
+//       @include max-screen(767px){margin-bottom: 20px;}
+//       .img{
+//         background-position: center;
+//         background-size:cover;
+//         background-repeat: no-repeat;
+//       }
+//       &--ttl{
+//         @include aspect-ratio(260,40);
+//         text-align: center;
+//         @include max-screen(767px){
+//           &:before{content: none;}
+//         }
+//         .ttl1{
+//           @include font(14,22/14,0.02,600);
+//           @include noto;color: #000;
+//           position: relative;display: inline-block;
+//           @include max-screen(767px){
+//             font-size: 13px;
+//             text-align: center;
+//           }
+//           em{
+//             font-style: normal;
+//             font-size: 25px;vertical-align: middle;
+//             @include max-screen(767px){font-size: 22px;}
+//           }
+//         }
+//       }
+//       &__img{
+//         width: calc(73.28% - 140px);
+//         @include max-screen(767px){
+//           width: 100%;
+//         }
+//         .img{
+//           @include aspect-ratio(550,380);
+//           @include max-screen(767px){
+//             margin-top: 20px;
+//             width: 75%;max-width: 400px;
+//           }
+//         }
+//       }
+//       &__info{
+//         width: 290px;
+//         @include max-screen(767px){
+//           width: 100%;margin-top: -25%;
+//         }
+//         &--space{
+//           @include aspect-ratio(260,70);
+//           @include screen(768px,950px){@include aspect-ratio(260,40);}
+//           @include max-screen(767px){display: none;}
+//         }
+//         &--img{
+//           .img{
+//             @include aspect-ratio(250,185);
+//             width: 100%;
+//             @include max-screen(767px){
+//               max-width: 280px;
+//               width: 55%;
+//             }
+//           }
+//         }
+//       }
+//       &:last-child .line{display: none;}
+//       &:not(:last-child) .line{
+//         position: absolute;
+//         top:0;height: calc(100% + 100px);
+//         display: flex;flex-direction: column;
+//         width: calc(69% - 130px);
+//         overflow: hidden;
+//         @include screen(768px,950px){height: calc(100% + 80px);}
+//         @include max-screen(767px){display: none;}
+//         .space{
+//           @include aspect-ratio(550,105);
+//         }
+//         .inner{
+//           position: relative;
+//           width: 100%;height: 100%;
+//           background: url(../../img/common/line1.png) center/100% 100% no-repeat;
 
-          .circle1,.circle2{
-            width: 22px;height: 22px;
-            display: inline-block;
-            position: absolute;
-            border-radius: 50%;
-            background: $purple;
-            @include screen(768px,950px){width:24px;height: 24px;}
-            &:after{
-              content:"";position: absolute;
-              top: 50%;left:50%;
-              @include transform_c(translate(-50%,-50%));
-              border-radius: 50%;
-              border: 3px solid #fff;
-              width: calc(100% - 4px);
-              height: calc(100% - 4px);
-              @include screen(768px,950px){border-width: 2px;}
-            }
-          }
-          .circle1{
-            top: 0;left:0;
-            @include screen(768px,950px){top:5px;}
-          }
-          .circle2{
-            bottom:0;right:0;
-            @include screen(768px,950px){bottom:5px;}
-          }
+//           .circle1,.circle2{
+//             width: 22px;height: 22px;
+//             display: inline-block;
+//             position: absolute;
+//             border-radius: 50%;
+//             background: $purple;
+//             @include screen(768px,950px){width:24px;height: 24px;}
+//             &:after{
+//               content:"";position: absolute;
+//               top: 50%;left:50%;
+//               @include transform_c(translate(-50%,-50%));
+//               border-radius: 50%;
+//               border: 3px solid #fff;
+//               width: calc(100% - 4px);
+//               height: calc(100% - 4px);
+//               @include screen(768px,950px){border-width: 2px;}
+//             }
+//           }
+//           .circle1{
+//             top: 0;left:0;
+//             @include screen(768px,950px){top:5px;}
+//           }
+//           .circle2{
+//             bottom:0;right:0;
+//             @include screen(768px,950px){bottom:5px;}
+//           }
+//         }
+//       }
+//       &:nth-child(2n+1){
+//         padding-right: 10%;
+//         @include max-screen(950px){padding-right: 0;}
+//         .line{right: calc(21.7% - 70px);}
+//         .item__img{
+//           order: 2;
+//           @include max-screen(767px){
+//             order: 1;
+//             .item--ttl{text-align: left;}
+//             .img{margin-left: 25%;}
+//           }
+//         }
+//         .item__info{
+//           order: 1;
+//           @include max-screen(767px){order: 2;}
+//           &--img{
+//             padding-right: 10px;
+//           }
+//         }
+//       }
+//       &:nth-child(2n){
+//         padding-left: 10%;
+//         @include max-screen(950px){padding-left: 0;}
+//         .line{
+//           left: calc(21.7% - 70px);
+//           @include transform_c(rotateY(-180deg));
+//         }
+//         .item__img{
+//           order: 1;
+//           .item--ttl{text-align: right;}
+//         }
+//         .item__info{
+//           order: 2;
+//           &--img{
+//             padding-left: 10px;
+//             @include max-screen(767px){
+//               .img{margin-left: 46%;}
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+/*-----------------------------------------------------------
+INTRO
+------------------------------------------------------------*/
+/*-----------------------------------------------------------
+INTRO
+------------------------------------------------------------*/
+/*-----------------------------------------------------------
+INTRO
+------------------------------------------------------------*/
+.amiidalife-lst{
+  margin-top: 50px;
+  .item{
+    &__intro{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: #F5F1F7;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+      border-radius: 10px;
+      // border: 5px solid $purple;
+      box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+      .img,.info{
+        width: 50%;
+      }
+      .img{
+        img{
+          width: 100%;
+          border: 5px solid #fff;
         }
       }
-      &:nth-child(2n+1){
-        padding-right: 10%;
-        @include max-screen(950px){padding-right: 0;}
-        .line{right: calc(21.7% - 70px);}
-        .item__img{
-          order: 2;
-          @include max-screen(767px){
-            order: 1;
-            .item--ttl{text-align: left;}
-            .img{margin-left: 25%;}
-          }
+      .info{
+        text-align: center;
+        padding-left: 20px;
+        .ttl{
+          @include font(24,1.8,0.02,bold);
+          @include noto;
         }
-        .item__info{
-          order: 1;
-          @include max-screen(767px){order: 2;}
-          &--img{
-            padding-right: 10px;
-          }
-        }
-      }
-      &:nth-child(2n){
-        padding-left: 10%;
-        @include max-screen(950px){padding-left: 0;}
-        .line{
-          left: calc(21.7% - 70px);
-          @include transform_c(rotateY(-180deg));
-        }
-        .item__img{
-          order: 1;
-          .item--ttl{text-align: right;}
-        }
-        .item__info{
-          order: 2;
-          &--img{
-            padding-left: 10px;
-            @include max-screen(767px){
-              .img{margin-left: 46%;}
-            }
-          }
+        .txt{
+          @include font(18,1.5,0.02);
+          margin-top: 30px;
+          color: rgba(0,0,0,0.7);
         }
       }
     }
+    &__detail{
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
   }
 }
-/*-----------------------------------------------------------
-INTRO
-------------------------------------------------------------*/
-/*-----------------------------------------------------------
-INTRO
-------------------------------------------------------------*/
-/*-----------------------------------------------------------
-INTRO
-------------------------------------------------------------*/
