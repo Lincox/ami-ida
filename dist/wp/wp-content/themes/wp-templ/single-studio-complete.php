@@ -12,6 +12,10 @@ $thisPageName = 'single-studio';
 // var_dump($studio_address);
 // var_dump($studio_tel);
 if(!empty($_POST['actionFlag']) && $_POST['actionFlag'] == "send") {
+  $studio_email = get_field('studio_email', $reg_studio_id);
+  if($studio_email) {
+    $aMailtoContact = array($studio_email);
+  }
   $aMailto = $aMailtoContact;
   if(count($aBccToContact)) $aBccTo = $aBccToContact;
   $from = $fromContact;
