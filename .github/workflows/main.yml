@@ -13,5 +13,5 @@ jobs:
       with:
         ftp-server: ftp://ftp.chaulongsaigonhotel.webstarterz.com/public_html/test.chaulongsaigonhotel.com/
         ftp-username: cp135508
-        ftp-password: BbqChicken@0141
+        ftp-password: 0141@BbqChicken
         local-dir: dist/
