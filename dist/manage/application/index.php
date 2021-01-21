@@ -1,6 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'].'/app_config.php');
 include_once(APP_PATH.'wp/wp-load.php');
+
+$paged = isset($_GET['paged']) && $_GET['paged'] ? $_GET['paged'] : 1;
 $thisPageName = 'manage-application';
 $page_ttl = '体験予約者管理ボード';
 if(isset($_SESSION['logID']) && $_SESSION['logID']){
@@ -112,7 +114,8 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
             if($urlYM) {
               $appl_query_all = new WP_Query( array(
                 'post_type' => 'application',
-                'posts_per_page' => '-1',
+                'posts_per_page' => '30',
+                'paged' => $paged,
                 'post_status' => 'publish',
                 'meta_query' => array(
                   'relation' => 'AND',
@@ -132,6 +135,7 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
                 )
               ));
               $appl_query_condition = new WP_Query( array(
+                'fields' => 'ids',
                 'post_type' => 'application',
                 'posts_per_page' => '-1',
                 'post_status' => 'publish',
@@ -161,7 +165,8 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
             }else{
               $appl_query_all = new WP_Query( array(
                 'post_type' => 'application',
-                'posts_per_page' => '-1',
+                'posts_per_page' => '30',
+                'paged' => $paged,
                 'post_status' => 'publish',
                 'meta_query' => array(
                   'relation' => 'AND',
@@ -169,6 +174,7 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
                 )
               ));
               $appl_query_condition = new WP_Query( array(
+                'fields' => 'ids',
                 'post_type' => 'application',
                 'posts_per_page' => '-1',
                 'post_status' => 'publish',
@@ -264,7 +270,7 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
                   $appl_query_all->the_post();
                 ?>
                 <div class="row js-row" data-post-id="<?php echo get_the_ID();?>">
-                  <div class="td"><p class="txt"><?php echo $i;?></p></div>
+                  <div class="td"><p class="txt"><?php echo (($paged-1)*30 + $i);?></p></div>
                   <?php if(!$studio_id) {?>
                   <div class="td"><p class="txt"><?php echo get_field('app_studio')->post_title;?></p></div>
                   <?php } ?>
@@ -356,9 +362,13 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
                 <?php endwhile;?>
               </div>
             </div>
+
+            <div class="pageNavi">
+              <?php if (function_exists('wp_pagenavi')) { echo wp_pagenavi(array( 'query' => $appl_query_all )); } ?>
+            </div>
             <a href="<?php echo $csv_url;?>" class="btn-download" target="_blank">csvをダウンロード</a>
           </div>
-          <?php endif;?>
+          <?php wp_reset_postdata(); endif;?>
         </div>
       </div>
     </div>
