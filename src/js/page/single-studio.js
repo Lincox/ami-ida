@@ -5,9 +5,12 @@ $(document).ready(function () {
   slider();
   faq();
   price();
-  ajaxSchedule();
   popup();
   autoCompleteForm();
+})
+
+$(window).on('load', function(){
+  ajaxSchedule();
 })
 
 function slider(){
@@ -47,11 +50,13 @@ function price(){
 }
 
 function deleteEmptyRow(){
-  console.log('haha');
   var num_lesson = $('.js-calendar .col:first-child').find('.lesson').length,
       num_col = $('.js-calendar .col').length,
       empty_rows = [],
       nth_child = '';
+  if(num_lesson > 24) {
+    num_lesson = 24;
+  }
   for(i=1;i<=num_lesson;i++){
     j = 0;
     $('.js-calendar .col').each(function(){

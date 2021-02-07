@@ -20,7 +20,7 @@ if(isset($_SESSION['logID']) && $_SESSION['logID']){
   }else{
     $urlYMlink = '';
   }
-  $csv_url = $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['HTTP_HOST'].dirname(explode('?', $_SERVER['REQUEST_URI'], 2)[0]).'/csv/'.$studio_slug.'/'.$urlYMlink.'data_entry.csv';
+  $csv_url = $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['HTTP_HOST'].'/manage/application/csv/'.$studio_slug.'/'.$urlYMlink.'data_entry.csv';
   $flagValidPage = 0;
   //get studio
   $wp_studio = new WP_Query();

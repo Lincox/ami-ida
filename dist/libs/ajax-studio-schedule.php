@@ -59,40 +59,58 @@
   $min_hour = 24;
   $max_hour = 0;
 
-  while( have_rows('schedule', $post_id) ){
-    the_row();
-    $lesson_date = get_sub_field('date');
+  $implode_arr_dates = implode("','",$arr_dates);
 
-    if (in_array($lesson_date, $arr_dates)) {
-      $lesson_master = $lesson_ttl = $lesson_level = $lesson_time = $lesson_instructor = $lesson_picture = $lesson_status = '';
-      $lesson_master = get_sub_field('lesson_master');
-      if ($lesson_master) {
-        $lesson_ttl = $lesson_master->post_title;
-        $lesson_level = get_field('lesson_level', $lesson_master->ID);
-        $lesson_content = get_field('lesson_content', $lesson_master->ID);
-      }else{
-        $lesson_ttl = get_sub_field('custom_lesson_title');
-        $lesson_level = get_sub_field('custom_lesson_level');
-        $lesson_content = get_sub_field('custom_lesson_content');
-      }
-      $lesson_time_start = get_sub_field('time_start');
-      $lesson_time_end = get_sub_field('time_end');
-      $time_arr = explode(':', $lesson_time_start);
-      $start_hour = $time_arr[0];
-      if (intval($start_hour) < $min_hour) {
-          $min_hour = intval($start_hour);
-      }
-      if (intval($start_hour) > $max_hour) {
-          $max_hour = intval($start_hour);
-      }
-      $lesson_instructor = get_sub_field('instructor');
-      if (!empty($lesson[$lesson_date])) {
-          array_push($lesson[$lesson_date], [$lesson_time_start, $lesson_time_end, $lesson_instructor, $lesson_ttl, $lesson_level, $lesson_content]);
-      } else {
-          $lesson[$lesson_date] = [[$lesson_time_start, $lesson_time_end, $lesson_instructor, $lesson_ttl, $lesson_level, $lesson_content]];
-      }
+  $schedule_query = "SELECT REPLACE(REPLACE(meta_key, 'schedule_', ''), '_date', '') AS key_num
+                     FROM $wpdb->postmeta
+                     WHERE meta_key LIKE 'schedule_%_date'
+                           AND meta_value IN ('$implode_arr_dates')
+                           AND post_id = $post_id";
+
+  $schedule_rp_row = $wpdb->get_results($schedule_query);
+
+  foreach($schedule_rp_row as $key => $val) {
+    $row_index = $val->key_num;
+    $this_row_data = get_field('schedule', $post_id)[$row_index];
+
+    $lesson_date = $this_row_data['date'];
+
+    $lesson_master = $lesson_ttl = $lesson_level = $lesson_time = $lesson_instructor = $lesson_picture = $lesson_status = '';
+    $lesson_master = $this_row_data['lesson_master'];
+    if ($lesson_master) {
+      $lesson_id = $lesson_master->ID;
+      $lesson_ttl = get_the_title($lesson_id);
+      $lesson_level = get_field('lesson_level', $lesson_id);
+      $lesson_content = get_field('lesson_content', $lesson_id);
+    }else{
+      $lesson_ttl = $this_row_data['custom_lesson_title'];
+      $lesson_level = $this_row_data['custom_lesson_level'];
+      $lesson_content = $this_row_data['custom_lesson_content'];
+    }
+    $lesson_time_start = $this_row_data['time_start'];
+    $lesson_time_end = $this_row_data['time_end'];
+    $time_arr = explode(':', $lesson_time_start);
+    $start_hour = $time_arr[0];
+    if($start_hour > 24) {
+      $start_hour = substr($lesson_time_start, 0, 2);
+    }
+    if($start_hour > 24) {
+      $start_hour = substr($lesson_time_start, 0, 1);
+    }
+    if (intval($start_hour) < $min_hour) {
+        $min_hour = intval($start_hour);
+    }
+    if (intval($start_hour) > $max_hour) {
+        $max_hour = intval($start_hour);
+    }
+    $lesson_instructor = $this_row_data['instructor'];
+    if (!empty($lesson[$lesson_date])) {
+        array_push($lesson[$lesson_date], [$lesson_time_start, $lesson_time_end, $lesson_instructor, $lesson_ttl, $lesson_level, $lesson_content]);
+    } else {
+        $lesson[$lesson_date] = [[$lesson_time_start, $lesson_time_end, $lesson_instructor, $lesson_ttl, $lesson_level, $lesson_content]];
     }
   }
+
   //$lesson array is multidimensional array with top key is date, and inside is every lesson
 
   ksort($lesson);
@@ -115,6 +133,12 @@
     for($i=$min_hour;$i<=$max_hour;$i++){
       $lhour = explode(':', $value[$j][0]);
       $lhour = $lhour[0];
+      if($lhour > 24) {
+        $lhour = substr($value[$j][0], 0, 2);
+      }
+      if($lhour > 24) {
+        $lhour = substr($value[$j][0], 0, 1);
+      }
       if($lhour != $i){
         if($lhour < $i) {
           //check if time start is duplicate, if it's duplicate, go to next lesson
@@ -122,6 +146,12 @@
             $j++;
             $lhour = explode(':', $value[$j][0]);
             $lhour = $lhour[0];
+            if($lhour > 24) {
+              $lhour = substr($value[$j][0], 0, 2);
+            }
+            if($lhour > 24) {
+              $lhour = substr($value[$j][0], 0, 1);
+            }
           }
         }
         $html .= '<div class="lesson empty"></div>';
@@ -190,4 +220,21 @@
   $result['html'] = $html;
   $result['html_popup'] = $html_popup;
   echo json_encode($result);
+
+  //dont detele it, this is backup function for filter repeater
+  // $schedule_query = "SELECT  tt.meta_id AS meta_id,
+  //                                 tt.post_id AS post_id,
+  //                                 tt.meta_key AS lesson_master_key,
+  //                                 tt.meta_value AS lesson_master_value,
+  //                                 d.meta_key AS date_key,
+  //                                 d.meta_value AS date_value
+  //                   FROM $wpdb->postmeta AS tt
+  //                   JOIN
+  //                   (SELECT t.*, REPLACE(REPLACE(t.meta_key, 'schedule_', ''), '_date', '') AS key_num
+  //                   FROM $wpdb->postmeta AS t
+  //                   WHERE t.meta_key LIKE 'schedule_%_date'
+  //                         AND t.meta_value IN ('$implode_arr_dates')
+  //                         AND t.post_id = $post_id) d
+  //                   ON d.key_num = REPLACE(REPLACE(tt.meta_key, 'schedule_', ''), '_lesson_master', '')
+  //                   WHERE tt.meta_key LIKE 'schedule_%_lesson_master' AND tt.post_id = $post_id";
 ?>
